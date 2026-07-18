@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+      <div id='banner'><img src="https://me-rsu74.edupoint.com/Photos/8D/8D749524-419B-4CB2-BEAE-134B947A853D_TitleLogo.PNG" alt="Logo"></div>
+   <H1>Teacher Evaluation Status</H1>
+     <br><br>
+     <button type="button" class="gradient round" onclick="window.top.location.href = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec'">Teachers Observations</button>
+     <br><br>
+     <b>Cohort A</b> - Peer Observation & Student Perception Survey in Year 1 / Propositions 4 & 5 through a Portfolio or a Collegial Meeting in Year 2<br>
+     <b>Cobort B</b> - Propositions 4 & 5 through a Portfolio or a Colliegial Meeting in Year 1 / Peer Observation & Student Perception Survey in Year 2<br><br>
+    <form id="postEvalData">
+      <?var evals = getEvals();?>
+
+      <table width=95%>
+        <tr class="trhover">
+          <td><b>Teacher Name</b></td>
+          <td><b>Cycle Year</b></td>
+          <td><b>Cohort</b></td>
+          <td><b>Option Choice</b></td>
+          <td><b>Peer Observation</b></td>
+          <td><b>Student Perception Survey</b></td>
+          <td><b>PD</b></td>
+        </tr>
+
+        <?if (evals.length !=0) {?>
+        <?for (var i=0; i<evals.length; i++) {?>
+          <?var url = "https://script.google.com/a/macros/carrabec.org/s/AKfycbwTB3f-s9dncsHc7CssSl0eDhuVoGdwRQjPoLOdWm1NGbeIJfMCioiCwiMEYR4g5-FBEA/exec?ID=" + evals[i][1];?>
+          <tr class="trhigh">
+            <td class="pad"><?=evals[i][0]?></td>
+            <td class="pad"><?=evals[i][5]?></td>
+            <td class="pad"><?=evals[i][6]?></td>
+            <td class="pad"><?=evals[i][7]?></td>
+
+
+            
+          </tr>
+        <? }?>
+        <?}?>
+
+      </table>
+     
+<br><br><button type="button" class="gradient round" id="save" onclick="saveData();">Submit</button>
+  
+    <?!= HtmlService.createHtmlOutputFromFile('CSS').getContent(); ?>
+    </form>
+  </body>
+</html>
