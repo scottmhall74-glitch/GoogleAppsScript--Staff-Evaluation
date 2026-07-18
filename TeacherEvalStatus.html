@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+    <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+    <script src="https//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" > </script>
+    <script src="https//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+  <script>
+     
+  </script>
+  <div id='banner'><img src="https://me-rsu74.edupoint.com/Photos/8D/8D749524-419B-4CB2-BEAE-134B947A853D_TitleLogo.PNG" alt="Logo"></div>
+  
+    <?var status = getStatus();?>
+    <H1><?=status[0]?> Evaluation Status</H1> <br><br>
+    <br>
+    <br>
+    <button type="button" class="gradient round" onclick="window.top.location.href = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec'">Teachers Observations</button>
+    <button type="button" class="gradient round" onclick="window.top.location.href = 'https://script.google.com/a/macros/carrabec.org/s/AKfycbwTB3f-s9dncsHc7CssSl0eDhuVoGdwRQjPoLOdWm1NGbeIJfMCioiCwiMEYR4g5-FBEA/exec'">Teacher Evaluation Status List</button>
+    <br>
+    <br>
+    <br>
+    <br>
+<br><b>Current Evaluator: </b><?=status[2];?>
+    <br><b>School Year:</b> <?=status[3]?>
+    <?//Shows the cycle that the teacher is in?>
+    <?if (status[5] == '1 Year') {?><br><b>Cycle: </b>1 Year Evaluation Cycle  <?}?>
+    <?if (status[5] == '1 of 2') {?><br><b>Cycle: </b>Year 1 of 2 Year Evaluation Cycle  <?}?>
+    <?if (status[5] == '2 of 2') {?><br><b>Cycle: </b>Year 2 of 2 Year Evaluation Cycle  <?}?>
+
+    <?//Shows the evaluation parts for the teacher's specified evalutaion ?>
+    
+    <?if (status[5] == '1 Year' && status[6] == '2. With PD') {?>
+    <br><b>1 Year Evaluation Parts: </b> This year you will need to complete: 
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.44f3jnw70ss' target="_blank">Professional Observation, Propositions 1-3</a>
+
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.mj11hmd1ajby' target="_blank">PD</a>
+
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.44f3jnw70ss' target="_blank">Collegial Meeting / Portfolio, Prop 4-5</a> with <?=status[2]?>
+    
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.qfa3iyj6nted' target="_blank">Peer Observation</a>
+    <?}?>
+
+    <?if (status[5] == '1 Year' && status[6] == '1. No PD') {?>
+    <br><b>1 Year Evaluation Parts: </b> This year you will need to complete: 
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.44f3jnw70ss' target="_blank">Professional Observation, Propositions 1-3</a>
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.44f3jnw70ss' target="_blank">Collegial Meeting / Portfolio, Prop 4-5</a> with <?=status[2]?>
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.qfa3iyj6nted' target="_blank">Peer Observation</a>
+    <?}?>
+
+    <?if (status[5] != '1 Year' && status[6] == '1. No PD') {?>
+    <br><b>Evaluation Parts: </b> This year you will need to complete: 
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.44f3jnw70ss' target="_blank">Professional Observation, Propositions 1-3</a> - Annually
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.44f3jnw70ss' target="_blank">Collegial Meeting / Portfolio, Prop 4-5</a> with <?=status[2]?> - Minimum 1 per cycle
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.qfa3iyj6nted' target="_blank">Peer Observation</a> - Minimum 1 per cycle
+    <?}?>
+
+    <?if (status[5] != '1 Year' && status[6] == '2. With PD') {?>
+    <br><b>Evaluation Parts: </b> This year you will need to complete: 
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.44f3jnw70ss' target="_blank">Professional Observation, Propositions 1-3</a> - Annually
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.mj11hmd1ajby' target="_blank">PD</a> - Annually
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.44f3jnw70ss' target="_blank">Collegial Meeting / Portfolio, Prop 4-5</a> with <?=status[2]?> - Minimum 1 per cycle
+    <br>&nbsp; <a href='https://docs.google.com/document/d/1qlw2RGoMlPrL0DHQXw7jg6-I4ZLjign17NjNb0KhP3c/edit#heading=h.qfa3iyj6nted' target="_blank">Peer Observation</a> - Minimum 1 per cycle
+    <?}?>
+
+    <br>
+    
+
+    
+
+    <?if (status[6] == '3. NO EVALUATION') {?> <br><b>You do not need to do an evaluation this year </b> <?}?>
+
+     <br>
+   
+    <a href='https://docs.google.com/document/d/1b5iNy0hmMiTMhapBgE347IWI0Fvy42x70UFWdSfzFpg' target='_blank'>Appendix N. Evaluation Checklist with Approximate Dates</a>
+
+    <br><br><b>Evaluation Scores to Date</b> (Scores will range from 1 to 4): 
+     
+
+    <?//Check to see what needs to be listed for items?>
+    
+    <?if (status[6] == '1. No PD') {?> 
+    
+    <br><b>&nbsp;Observation Score Average, Propositions 1-5 (90%): </b> <a href='https://sites.google.com/a/carrabec.org/staff-evaluation?pli=1' target="_blank"><?=parseFloat(status[15]).toFixed(2);?></a>
+    <br><b>&nbsp;Peer Observation (10%): </b> <?=status[16]?>
+    <br>
+    <?}?>
+
+    <?if (status[6] == '2. With PD' && status[5] != '1 Year') {?> 
+    <br><b>&nbsp;Observation Score Average, Propositions 1-5 (55%): </b> <a href='https://sites.google.com/a/carrabec.org/staff-evaluation?pli=1' target="_blank"><?=parseFloat(status[15]).toFixed(2);?></a>
+    <br><b>&nbsp;PD 2 Year Accum. (35%):</b>  <?=status[19]?>
+    
+    <br><b>&nbsp;Peer Observation (10%): </b> <?=status[16]?>
+    
+    <?}?>
+
+    <?if (status[6] == '2. With PD' && status[5] == '1 Year') {?> 
+    <br><b>&nbsp;Observation Score Average, Propositions 1-5 (55%): </b> <a href='https://sites.google.com/a/carrabec.org/staff-evaluation?pli=1' target="_blank"><?=parseFloat(status[15]).toFixed(2);?></a>
+  
+    <br><b>&nbsp;PD Score (35%):</b>  <?=status[19]?>
+    
+    <br><b>&nbsp;Peer Observation (10%): </b> <?=status[16]?>
+    
+    <?}?>
+
+    <?if (status[6] == '3. NO EVALUATION') {?> 
+    <br><b>&nbsp;No evaluation needed for this year</b>
+    <?}?>
+    <?if (status[6] == '4. Needs to Select') {?> 
+    <br><b>&nbsp;They need to select an evaluation model.</b>
+    <?}?>
+
+    <?var observation = getObs();?>
+
+    <br><br><b>Finalized Observation Dates:</b>
+    <?var count=3?>
+    <?for (var loop = 0; loop < status[20]; loop++) {?>
+      <br>&nbsp;&nbsp;<?=observation[count].getMonth()+1?>/<?=observation[count].getDate()?>/<?=observation[count].getFullYear()?>
+      <?count = count + 10;?>
+    <?}?>
+
+    <?if (status[30] != '#N/A') {?>
+    <br><br><b>Professional Goals</b>
+    <br><b>Goal 1:  </b><?=status[30]?>
+    <br><b>Goal 2:  </b><?=status[31]?>
+    <br><br><br>
+    <?} else {?>
+    <br><br>No Professional Goals have been entered in yet. 
+    <?}?>
+    
+
+
+
+    <?!= HtmlService.createHtmlOutputFromFile('CSS').getContent(); ?>
+  </body>
+</html>
