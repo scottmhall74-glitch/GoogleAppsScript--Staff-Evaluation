@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+    <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" > </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+
+<html>
+ 
+  <head>
+    <base target="_top">
+    
+  </head>
+  <body>
+     <?var para = PropertiesService.getUserProperties();
+      var email = getEmail();
+      var info = para.getProperty(email + 'ID');
+      var observe = getObservation();
+      para.deleteProperty(email + 'Print');
+      para.setProperty(email + "SS", observe[2]);
+      var user = info.split("&"); //EvalEmail&EvalID
+      var sheets = openEvalSpread(observe[2]);
+      var evalbody = '';
+      ?> 
+      <center>
+    RSU #74<br><?=observe[0]?> Observation/Evaluation</center>
+   <div class="example-print">
+     
+
+       <fieldset>
+       <Legend>
+        Observation/Evaluation Information
+       </Legend>
+       <table style="width:95%">
+       <tr>
+       <td>
+        <b>Status:</b> <?=observe[4]?> 
+        <?evalbody = evalbody + 'Observation Status: ' + observe[4] + '\n'?>
+       </td>
+       <td>
+       <b>Date of:</b> <?=observe[5].getMonth()+1?>/<?=observe[5].getDate()?>/<?=observe[5].getFullYear()?>
+       <?var month = observe[5].getMonth()+1;?>
+       <?evalbody = evalbody + 'Date of the Observation:' + month + '/' + observe[5].getDate() + '/' + observe[5].getFullYear();?>
+       </td>
+       
+       <td>
+      <b>Notes:</b> <?=observe[6]?>
+       <?evalbody = evalbody + 'Time/Period/Note of the Observation: ' + observe[6]?>
+       </td>
+        </tr>
+        
+       </table>
+     </fieldset>
+     
+   </div>
+<div class="example-print">
+<?var cnt = 7; 
+    var chck = false;?>
+  <? for(var i = 0; i < sheets.length; i++) {?>
+     <?var eval = getProp(sheets[i]);?>
+       
+       <p class="prop">
+       <b><?=sheets[i]?></b>
+       <?evalbody = evalbody + sheets[i]?>
+             <?for (var ia=1; ia < eval.length; ia++) {?>
+            
+             <?for (var ib=0; ib < eval[ia].length; ib++) {
+                chck = false;?>
+             
+             <? var check = i + "$~$" + ia + "$~$" + ib; ?>
+             <?if (check == observe[cnt]) {?>
+             <?chck = true;?>
+             <?cnt++;?>
+             
+             
+             <?}?>
+ 
+             
+            
+            
+            <?if (chck && ia > 1) {?>
+
+             <p style="margin-left: 40px"><b><?=eval[ia][0]?>:</b> <?=ib?>.0 - <?=eval[ia][ib]?></p>
+             <?evalbody = evalbody + eval[ia][0] + ':' + eval[ia][ib] + '\n'?>
+             <?} else if (chck) {?>
+             : <?=eval[ia][ib]?>
+             
+             <?}?>
+
+
+             <?}?>
+             <?if (observe[cnt] != "NO" && observe[cnt] != "NS") {?>
+             <?} else {?>
+             <?}?>
+             <?if (ia != 1) {?>
+
+             <?if (observe[4] != "Finalized") {?>
+             <?if (observe[cnt] != "NO") {?>
+
+             <?} else { ?>
+
+               <?cnt++;?>
+             <?}?>
+             <?} else { ?>
+              
+             <? if (observe[cnt] == "NO") {
+               cnt++;
+              }?>
+             <?}?>
+             
+             <?} else { ?>
+
+             
+             <?if (observe[4] != "Finalized") {?>
+             
+             <?if (observe[cnt] != "NS") {?>
+
+             <?} else {?>
+
+              <?cnt++?>
+             <?}
+            
+             } else {?>
+             
+             <?if (observe[cnt] == "NS") {
+              cnt++;
+             }
+             }
+             cnt++;
+             ?>
+
+             <?}?>
+              
+              
+           
+              <?if (observe[cnt] != "" && cnt < observe.length) { ?>
+             <p style="margin-left: 80px"> Comment: <?=observe[cnt]?></p>
+              <?evalbody = evalbody + 'Comment:' + observe[cnt] + '\n';?>
+              <?}?>
+              
+              <?cnt++?>
+
+           <?}?> 
+      </p> 
+      
+   <?} //end of for loop?>
+   </div>
+  
+    <?info = info + '&' + evalbody;?>
+    <?//var GPrint = getGPrint(info);?>
+    <?!= HtmlService.createHtmlOutputFromFile('CSS').getContent(); ?> 
+    <?para.deleteProperty(email + 'SS');?>
+
+ 
+ 
+  </body>
+</html>
+
+<script>
+  function reload() {
+   //var url = 'https://sites.google.com/carrabec.org/testrural/home';
+   var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyl83YnMvjsilARaqJoEV1ps1dgUQjqpfIrT7UF5VkZ/dev';
+   window.top.location.href = url;
+ }
+ </script>
+
+ 
