@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+    <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+    <script src="https//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" > </script>
+    <script src="https//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+    
+    
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+
+<script>
+
+function createNew() {
+//var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';
+var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';  
+ 
+ var html = google.script.run.setNew($( "#evstaff" ).val(), $( "#evalDate" ).val(), $( "#evalTime" ).val());
+    
+
+    //$( "#New-Eval" ).hide();
+    window.top.location.href = url;
+}
+
+
+
+function loadPrint(test) {
+//var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbxkpGb90PEL97xRKhGnyFAlZUtRxg_j1G6Qnnf7Lf0/exec';
+var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';  
+
+ window.top.location.href = url;
+}
+
+//------------------------------------------------------------------------------
+
+function openEval(id) {
+$( "#Evals" ).hide();
+$( "#work" ).show();
+
+google.script.run.withSuccessHandler(loadPrint).setUser(id);
+
+}
+
+</script>
+   <?
+    var para = PropertiesService.getUserProperties();
+    ?>
+    You are currently logged in as <?=getEmail();?>
+     
+  <div id='banner'><img src="https://me-rsu74.edupoint.com/Photos/8D/8D749524-419B-4CB2-BEAE-134B947A853D_TitleLogo.PNG" alt="Logo"></div>  
+  <H1>Staff Evaluation / Observation</H1>
+  <form>
+     <br>
+    <br>
+    <button type="button" class="gradient round" onclick="window.top.location.href = 'https://script.google.com/a/macros/carrabec.org/s/AKfycbwTB3f-s9dncsHc7CssSl0eDhuVoGdwRQjPoLOdWm1NGbeIJfMCioiCwiMEYR4g5-FBEA/exec'">Teacher Evaluation Status List</button>
+    <br><br>
+    <a href="https://drive.google.com/file/d/12a9ojPRespbZ3Ih49G9ktZ0w4o0gGmQR/view?usp=sharing">Appendix F: Post-Observation Reflection Form</a>
+    <br><br>
+  <?var staff = getStaff();
+    var para = PropertiesService.getUserProperties();
+    var email = getEmail();
+    
+    if (para.getProperty(email + "Access") == "Principal"){ ?>
+   <fieldset>
+      <legend>
+         Create a New Observation/Evaluation
+      </legend> 
+  <div id="New-Eval" class="color">
+    <table style="width:100%">
+     <tr><td>
+    Create a new evaluation for:  <select name="evstaff" id="evstaff">
+    <option value="Null">Select Name to Create a new Eval</option>
+    
+    <?for (var i = 1; i < staff.length; i++) { ?>
+     <option value="<?=staff[i][1]?>&<?=staff[i][2]?>&<?=staff[i][0]?>"><?=staff[i][0]?></option>
+    <?}?>
+    
+    </select>
+    <span id="nameError" hidden="true"><p>Please Select the Staff You are Observing</span>
+    </td>
+    
+    <td>
+     Date of the Observation/Evaluation: <input type="date" name="evalDate" id="evalDate">
+     <span id="dateError" hidden="true"><p>Please Enter an Observation/Evaluation Date</span>
+    </td>
+    
+    <td>
+     Time/Period/Note of the Observation/Evaluation (Optional): <input type="text" name="evalTime" id="evalTime">
+     <span id="timeError" hidden="true"><p>Please the Time of the Observation</span>
+    </td>
+    
+    <td>
+     <input type="button" hidden="true" class="round" value="Create Observation \ Evaluation" onclick="createNew()" id="submit" class="submit">
+    </td>
+    
+    </tr>
+   </table>
+   </div>
+   </fieldset>
+   <script>
+     $( "#evstaff" ).change(function() {
+      if ( $( "#evstaff" ).val() != "Null" && $( "#evalDate" ).val() != "") {
+        $( "#submit" ).show();
+       }
+      else {
+       $( "#submit" ).hide();
+      }
+      })
+      
+      $( "#evalDate" ).change(function() {
+      if ( $( "#evstaff" ).val() != "Null" && $( "#evalDate" ).val() != "") {
+        $( "#submit" ).show();
+       }
+      else {
+       $( "#submit" ).hide();
+      }
+      })
+      
+       $( "#evalTime" ).change(function() {
+      if ( $( "#evstaff" ).val() != "Null" && $( "#evalDate" ).val() != "" && $( "#evalTime" ).val() != "") {
+        $( "#submit" ).show();
+       }
+      else {
+       $( "#submit" ).hide();
+      }
+      })
+
+   </script>
+   
+  
+  
+  <?}?>
+  
+  <fieldset>
+      <legend>
+         This year's Staff - Click on the staff's name to view their Evaluations/Oberservations
+      </legend> 
+      
+  <div id="Evals">
+   <table width=95%>
+     <tr class="trhover">
+      <th> Staff Name </th>
+     </tr>
+     
+     <? var listStaff = getStaff();?>
+     <? var startDate = getStartDate(); ?>
+     <? var parameter = ""; ?>
+       
+      <? for (var staffcnt = 1; staffcnt < listStaff.length; staffcnt++) {
+        //get staff evals
+        /*var evals = getEvals(listStaff[staffcnt][1]);
+         for (var steval = 0; steval < evals.length; steval++) { 
+          if (evals[steval][0] && evals[steval][5] > startDate) {
+           parameter = listStaff[staffcnt][1] + '&' + evals[steval][1];*/
+        parameter = listStaff[staffcnt][1];
+         ?>
+         <tr class="trhigh" onclick="openEval(<?=parameter?>)">
+         <td class="pad"><?=listStaff[staffcnt][0]?></td>
+         
+         </tr>
+
+          <?//Removes the last part of all supervisor list where teachers ware there twice.?>
+           <? if (listStaff[staffcnt+1][0] == "--Teacher Prop 4-5 --") {   
+              staffcnt = listStaff.length;
+          }?>
+         
+
+        <?
+       } ?>
+       
+      <? // then get array or that staff's evals ?>
+      <? // show eval detail if date is larger then what is in misc ?>
+       
+    <?//for loop?>
+    <tr>    
+    
+    </tr>
+    
+    
+   </table>
+   
+  </div>
+   
+ </fieldset>
+ <div id="work" hidden='true'>Loading your Evaluation / Observation now</div>
+   <?!= HtmlService.createHtmlOutputFromFile('CSS').getContent(); ?> 
+  </form>
+
+  </body>
+</html>
+
+
