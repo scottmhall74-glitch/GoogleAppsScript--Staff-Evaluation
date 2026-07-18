@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+    <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+    <script src="https//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" > </script>
+    <script src="https//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+
+<html>
+  <head>
+    <base target="_top">
+      
+  </head>
+  
+  
+ <script>
+
+ function openProp(evt, prop) {
+  // Declare all variables
+  var i;
+  var tabcontent
+  var tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(prop).style.display = "block";
+  evt.currentTarget.className += " active";
+     
+    }
+    
+    
+  function saveData() {
+   var x = document.getElementById("staff-eval");
+   var array = [];
+   var i;
+   var j = 0;
+   
+   if (x.elements["evalStatus"].value != "Finalized") {
+   
+   for (i = 1; i < x.length; i++) {
+   if (x[i].checked == true || x[i].type == "text" || x[i].type == "textarea" || x[i].type == "date" || x[i].type == "time") {
+    array[j] = x.elements[i].value;
+    j++;
+    }
+   }
+  
+   google.script.run.postData(array);
+   
+   }//end of not finalized
+  
+  }
+  
+ //-------------------------------------------------------
+ 
+ function releaseData() {
+ 
+  var release = confirm('Are you sure you wish to release this observation to ' + $( '#name' ).val());
+  
+  if (release) {
+   var x = document.getElementById("staff-eval");
+   var array = [];
+   var i;
+   var j = 0;
+   
+   for (i = 1; i < x.length; i++) {
+   if (x[i].checked == true || x[i].type == "text" || x[i].type == "textarea" || x[i].type == "date" || x[i].type == "time") {
+    array[j] = x.elements[i].value;
+    j++;
+    }
+   }
+  
+   array[3] = 'Released';
+   google.script.run.postData(array);
+   
+   x.elements["evalStatus"].value = "Released";
+   $( '#releaseStaff' ).hide();
+   
+   //function send info to staff
+    google.script.run.emailStaff(array);
+   
+   //$( '#final' ).show();
+   
+  } //end if release
+ 
+ }
+ 
+ //-------------------------------------------------------
+ 
+ function Finalize() {
+ 
+ var final = confirm('Are you sure you wish to finalize this observation');
+  
+  if (final) {
+   var x = document.getElementById("staff-eval");
+   var array = [];
+   var i;
+   var j = 0;
+   
+   for (i = 1; i < x.length; i++) {
+   if (x[i].checked == true || x[i].type == "text" || x[i].type == "textarea" || x[i].type == "date" || x[i].type == "time") {
+    array[j] = x.elements[i].value;
+    j++;
+    }
+   }
+  
+   array[3] = 'Finalized';
+   google.script.run.postData(array);
+   
+   x.elements["evalStatus"].value = "Finalized";
+   $( '#final' ).hide();
+   $( '#save' ).hide();
+   
+   google.script.run.emailStaff(array);
+   
+   var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';
+   //var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';
+   window.top.location.href = url;
+ 
+   
+  } //end if release
+ 
+ }
+ 
+ function reload() {
+   var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';
+   //var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';
+   window.top.location.href = url;
+ }
+ 
+ //------------------------------------------------------------------------
+ 
+ //------------------------------------------------------------------------------
+ 
+function loadPrint(URL) {
+ //window.open(URL, '_blank');
+}
+
+//------------------------------------------------------------------------------
+
+ function Print() {
+//var url = 'https://sites.google.com/carrabec.org/testrural/home';
+//var url = '';
+
+ //var id = google.script.run.getPrintID();
+ //var id = 'techteacher@carrabec.org&1202';
+ 
+ var x = document.getElementById("staff-eval");
+ 
+ $( '#PrintButton' ).hide();
+ $( '#pemail' ).show();
+  
+ var xa = x.elements["evalemail"].value;
+ var ya = x.elements["eval-ID"].value;
+ 
+ var id = xa + '&' + ya;
+ 
+ google.script.run.setID(id);
+ google.script.run.withSuccessHandler(loadPrint).getGPrint(id);
+
+//$( '#PrintButton' ).show();
+
+}
+ 
+ </script>
+  
+  <body onload="onload()"> <div id='banner'><img src="https://me-rsu74.edupoint.com/Photos/8D/8D749524-419B-4CB2-BEAE-134B947A853D_TitleLogo.PNG" alt="Logo"></div>
+    <? var para = PropertiesService.getUserProperties();
+       var email = getEmail();
+       var info = para.getProperty(email + "New-Values").split("&&"); 
+       var user = info[0];
+       var date = info[1];
+       var time = info[2];
+       var name = info[4];
+       var sheets = getEvalSheets(info[3]);?>
+   
+   <form id="staff-eval">
+   
+   <button type="button" class="gradient round" onclick="reload();">Staff Observations/Evaluations</button>
+
+    <?var pinfo = getPrintID();?>
+    <button type="button" class="gradient round" id="PrintButton" onclick="Print();">Print Observation/Evaluation</button>
+    <p id="pemail" hidden="true">You will receive an email with a print version of this observation/evaluation.</p>
+
+   
+   <div>
+     <fieldset>
+      <legend>
+         New Staff Observation/Evaluation Details
+      </legend>
+      <input type="text" id="eval-ID" hidden="true" value="<?=createID()?>">
+      <input type="text" id="evalSpread" hidden="true" value="<?=getEvalID(info[3])?>">
+      <input type="text" id="evalemail" hidden="true" value="<?=user?>">
+      <input type="text" id="evalStatus" hidden="true" value="Draft">
+       <table style="width:95%">
+       <tr>
+       <td>
+        Staff Name: <input type="text" name="name" id="name" value="<?=name?>">
+       </td>
+       <td>
+       Date of the Observation/Evaluation: <input type="date" name="evalDate" id="evalDate" value="<?=date?>">
+       </td>
+       
+       <td>
+       Notes for the Observation/Evaluation (Optional): <input type="text" name="evalTime" id="evalTime" value="<?=time?>">
+       </td>
+        </tr>
+        <tr>
+        <td>
+          <button type="button" class="gradient round" id="save" onclick="saveData();">Save</button>
+         </td>
+         <td>
+           <button type="button" class="gradient round" id="releaseStaff" name="releaseStaff" onclick="releaseData();">Release to <?=name?></button>
+         </td>
+         <td>
+          <button type="button" class="gradient round" id="final" hidden="true" onclick="Finalize();">Finalize Observation\Evaluation</button>
+         </td>
+        </tr>
+       </table>
+     </fieldset>
+   </div>
+   <fieldset>
+    <legend>
+      Propositions
+    </legend>
+   <div class="tab">
+    <? for(var i = 0; i < sheets.length; i++) {?>
+     
+       <button type="button" class="tablinks" onclick="openProp(event, '<?=sheets[i]?>');"><?=sheets[i]?></button>
+   
+   <?} //end of for loop?>
+   </div>
+  
+  <? for(var i = 0; i < sheets.length; i++) {?>
+     <?var eval = getProp(sheets[i]);?>
+       <div id="<?=sheets[i]?>" class="tabcontent">
+         <?=eval[0][0]?>
+         <table  class="color-table">
+           <?for (var ia=1; ia < eval.length; ia++) {?>
+            <tr class="color-table trhigh" onclick="saveData();">
+             <?for (var ib=0; ib < eval[ia].length; ib++) {?>
+             <td id="<?=i?>-<?=ia?>-<?=ib?>" class="color-table"  onclick="saveData();">
+             <?if (ib == 0) { ?>
+              <center><?=eval[ia][ib]?></center>
+             <?}  else {?>
+             <center>
+             <label class="container">
+             <input type="radio" id="<?=i?>-<?=ia?>" name="<?=i?>-<?=ia?>" value="<?=i?>$~$<?=ia?>$~$<?=ib?>"><?=eval[ia][ib]?>
+             <span class="checkmark"></span>
+             </label>
+             </center>
+             <?}?>
+             </td> 
+             <?}?>
+             <td class="color-table" onclick="saveData();">
+             <?if (ia != 1) {?>
+             
+             <center>
+             <label class="container">
+             <input type="radio" id="<?=i?>-<?=ia?>" name="<?=i?>-<?=ia?>" checked=checked value="NO" checked=checked>Not Observed
+             <span class="checkmark"></span>
+             </label>
+             </center>
+             
+             <?} else { ?>
+             <center>
+             <label class="container">
+             <input type="radio" id="<?=i?>-<?=ia?>" name="<?=i?>-<?=ia?>" checked=checked value="NS" checked=checked>Not Scored
+             <span class="checkmark"></span>
+             </label>
+             </center>
+             <input type="text" hidden=true name="avg" id="avg" value="&avg"> 
+             <?}?>
+             </td>
+             <td class="color-table" onclick="saveData();">
+              <textarea id="<?=eval[ia][0]?>-Comment" placeholder="<?=eval[ia][0]?> Comments:"></textarea>
+             </td>
+            </tr>
+           <?}?> 
+         </table>
+      </div>
+   <?} //end of for loop?>
+   
+   
+   </fieldset>
+   
+    <?!= HtmlService.createHtmlOutputFromFile('CSS').getContent(); ?> 
+   </form>
+   <script>
+     window.onbeforeunload = function() {
+   
+      saveData();
+      return;
+      // return "Any unsaved changes may be lost.";
+
+     };
+   </script>
+
+  </body>
+  <?para.deleteProperty(email+"New-Values");?>
+</html>
+
+ <script>
+
+ function openProp(evt, prop) {
+  // Declare all variables
+  var i;
+  var tabcontent
+  var tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(prop).style.display = "block";
+  evt.currentTarget.className += " active";
+     
+    }
+    
+    
+  function saveData() {
+   var x = document.getElementById("staff-eval");
+   var array = [];
+   var i;
+   var j = 0;
+   
+   if (x.elements["evalStatus"].value != "Finalized") {
+   
+   for (i = 1; i < x.length; i++) {
+   if (x[i].checked == true || x[i].type == "text" || x[i].type == "textarea" || x[i].type == "date" || x[i].type == "time") {
+    array[j] = x.elements[i].value;
+    j++;
+    }
+   }
+  
+   google.script.run.postData(array);
+   
+   }//end of not finalized
+  
+  }
+  
+ //-------------------------------------------------------
+ 
+ function releaseData() {
+ 
+  var release = confirm('Are you sure you wish to release this observation to ' + $( '#name' ).val());
+  
+  if (release) {
+   var x = document.getElementById("staff-eval");
+   var array = [];
+   var i;
+   var j = 0;
+   
+   for (i = 1; i < x.length; i++) {
+   if (x[i].checked == true || x[i].type == "text" || x[i].type == "textarea" || x[i].type == "date" || x[i].type == "time") {
+    array[j] = x.elements[i].value;
+    j++;
+    }
+   }
+  
+   array[3] = 'Released';
+   google.script.run.postData(array);
+   
+   x.elements["evalStatus"].value = "Released";
+   $( '#releaseStaff' ).hide();
+   
+   //function send info to staff
+   google.script.run.emailStaff(array);
+   
+   $( '#final' ).show();
+   
+  } //end if release
+ 
+ }
+ 
+ //-------------------------------------------------------
+ 
+ function Finalize() {
+ 
+ var final = confirm('Are you sure you wish to finalize this observation');
+  
+  if (final) {
+   var x = document.getElementById("staff-eval");
+   var array = [];
+   var i;
+   var j = 0;
+   
+   for (i = 1; i < x.length; i++) {
+   if (x[i].checked == true || x[i].type == "text" || x[i].type == "textarea" || x[i].type == "date" || x[i].type == "time") {
+    array[j] = x.elements[i].value;
+    j++;
+    }
+   }
+  
+   array[3] = 'Finalized';
+   google.script.run.postData(array);
+   
+   x.elements["evalStatus"].value = "Finalized";
+   $( '#final' ).hide();
+   $( '#save' ).hide();
+   
+   var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';
+   //var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';
+   window.top.location.href = url;
+ 
+   
+  } //end if release
+ 
+ }
+ 
+ function reload() {
+   var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';
+   //var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';
+   window.top.location.href = url;
+ }
+ 
+ </script>
+
