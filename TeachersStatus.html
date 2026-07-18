@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+  <script>
+  function runmailMerge() {
+   google.script.run.MailMerge();
+   var mail = confirm('Your teachers summative evaluation forms will be emailed to you. Only teachers who are in Year 1 of 1 and Year 2 of 2 will be created.');
+ 
+  }//end mailmerge function
+  </script>
+  
+    
+      <div id='banner'><img src="https://me-rsu74.edupoint.com/Photos/8D/8D749524-419B-4CB2-BEAE-134B947A853D_TitleLogo.PNG" alt="Logo"></div>
+   <H1>Teacher Evaluation Status</H1>
+     <br><br>
+     <button type="button" class="gradient round" onclick="window.top.location.href = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec'">Teachers Observations</button>
+      <button type="button" class="gradient round" onclick="window.top.location.href = 'https://script.google.com/a/macros/carrabec.org/s/AKfycbypFG-FqH6cBzjzlfFtPcAmXcUdOqWkSXBoImwnGaGmkOR3mIafS5jkDX380O_aW6m3/exec?Type=Peer'">Edit Peer Observation Scores</button>
+      <button type="button" class="gradient round" onclick="window.top.location.href = 'https://script.google.com/a/macros/carrabec.org/s/AKfycbypFG-FqH6cBzjzlfFtPcAmXcUdOqWkSXBoImwnGaGmkOR3mIafS5jkDX380O_aW6m3/exec?Type=PD'">Edit PD Scores</button>
+      <button type="button" class="gradient round" id="mailMerge" onclick="runmailMerge();">Print Teacher Summative Evaluation Forms</button>
+      <p> <button type="button" class="gradient round" onclick="window.top.location.href = 'https://sites.google.com/a/carrabec.org/employees/teacher-evaluation'">Teacher Evaluation Forms & Timeline</button>
+      <p> <a href='https://www.canva.com/design/DAGNYQGXE_k/rO_4vdq0YC-KWWhGed5TCA/edit?utm_content=DAGNYQGXE_k&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target="_blank"><button type="button" class="gradient round" >Help</button></a>
+     
+     <br>
+    <form>
+      <?var evals = getEvals();?>
+      <?//var allPD = getAllPD();?>
+      <br><b>Evaluation Percentages:
+<br>1. No PD</b>     - Prop 1-5 Avg <b>90%</b> / Peer Observation <b>10%</b>
+<br><b>2. With PD</b>     - Prop 1-5 Avg <b>55%</b> / Peer Observation <b>10%</b> / Professional Development <b>35%</b><br>
+      <br><table width=95% class='table'>
+        <tr class="trhover">
+          <td><b>Teacher Name</b></td>
+          <td><b>Cycle Year</b></td>
+          <td><b>Option Choice</b></td>
+          <td><b>Prop 1-3 Avg</b></td>
+          <td><b># Prop 1-3 Finalized</b></td>
+          <td><b>Prop 4-5 Avg</b></td>
+          <td><b>Prop 1-5 Combined</b></td>
+          <td><b>Peer Observation</b></td>
+          <td><b>PD</b></td>
+          <td><b>Goals</b></td>
+        </tr>
+
+        <?if (evals.length !=0) {?>
+        <?for (var i=0; i<evals.length; i++) {?>
+          <?var url = "https://script.google.com/a/macros/carrabec.org/s/AKfycbwTB3f-s9dncsHc7CssSl0eDhuVoGdwRQjPoLOdWm1NGbeIJfMCioiCwiMEYR4g5-FBEA/exec?ID=" + evals[i][1];?>
+          <tr class="trhigh" onclick="window.top.location.href = <?=url?>">
+            <?if (evals[i][6] == '1. No PD') {?>
+            <td class="pad"><?=evals[i][0]?></td>
+            <td class="pad"><?=evals[i][5]?></td>
+            <td class="pad"><?=evals[i][6]?></td>
+            <td class="pad"><?=evals[i][13]?></td>
+            <td class="pad"><?=evals[i][20]?></td>
+            <td class="pad"><?=evals[i][14]?></td>
+            <td class="pad"><?=evals[i][15]?></td>
+            <td class="pad"><?=evals[i][16]?></td>
+            <td class="pad">-</td>
+            <td class="pad">-</td>
+            <td class="pad">-</td>
+            <td class="pad"><?=evals[i][30]?><br><?=evals[i][31]?></td>
+            <?} else {?>
+            <td class="pad"><?=evals[i][0]?></td>
+            <td class="pad"><?=evals[i][5]?></td>
+            <td class="pad"><?=evals[i][6]?></td>
+            <td class="pad"><?=evals[i][13]?></td>
+            <td class="pad"><?=evals[i][20]?></td>
+            <td class="pad"><?=evals[i][14]?></td>
+            <td class="pad"><?=evals[i][15]?></td>
+            <td class="pad"><?=evals[i][16]?></td>
+            <td class="pad"><?=evals[i][19]?></td>
+            <td class="pad"><?=evals[i][30]?><br><?=evals[i][31]?></td>
+            <?}?>
+          </tr>
+        <? }?>
+        <?}?>
+
+      </table>
+
+<br><br>**Any row that highlights in green in a link that will give you more information on the teacher's evaluation.
+  
+    <?!= HtmlService.createHtmlOutputFromFile('CSS').getContent(); ?>
+
+    <script>
+  function runmailMerge() {
+     google.script.run.MailMerge();
+     var mail = confirm('Your teachers summative evaluation forms will be emailed to you. Only teachers with year 1 of 1 and year 2 of 2 will be created.');
+ 
+     }//end mailmerge function
+  </script>
+
+    </form>
+  </body>
+</html>
+
+
