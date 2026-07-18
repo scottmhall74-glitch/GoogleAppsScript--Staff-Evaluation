@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+
+    <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+    <script src="https//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" > </script>
+    <script src="https//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+  
+<script>
+
+
+
+function loadPrint(test) {
+//var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbxkpGb90PEL97xRKhGnyFAlZUtRxg_j1G6Qnnf7Lf0/exec';
+var url = 'https://script.google.com/a/carrabec.org/macros/s/AKfycbyymVo_R4KcaHp29eFC6Jj3XskG2SsBROj-LmPIVbe3BeRSrsNy/exec';  
+
+ window.top.location.href = url;
+}
+
+//------------------------------------------------------------------------------
+
+function openEval(id) {
+
+$( "#Evals" ).hide();
+$( "#work" ).show();
+google.script.run.withSuccessHandler(loadPrint).setID(id);
+
+}
+
+</script>
+  
+   <?
+    var para = PropertiesService.getUserProperties();
+    ?>
+    You are currently logged in as <?=getEmail();?><br>
+    <br>
+    <div id='banner'><img src="https://me-rsu74.edupoint.com/Photos/8D/8D749524-419B-4CB2-BEAE-134B947A853D_TitleLogo.PNG" alt="Logo"></div>
+    <H1>This year's Observations/Evaluations</H1>
+  <form>
+      <br>
+    <br>
+    <button type="button" class="gradient round" onclick="window.top.location.href = 'https://script.google.com/a/macros/carrabec.org/s/AKfycbwTB3f-s9dncsHc7CssSl0eDhuVoGdwRQjPoLOdWm1NGbeIJfMCioiCwiMEYR4g5-FBEA/exec'">Teacher Evaluation Status List</button>
+
+  <? 
+    var staff = getStaff();
+    var para = PropertiesService.getUserProperties();
+    var email = getEmail();
+    var user = para.getProperty(email + 'User');
+    para.deleteProperty(email + 'User');
+    ?>
+  <button type="button" class="gradient round" id="HomeButton" onclick="loadPrint();">Staff Observation/Evaluations</button>
+  <fieldset>
+      <legend>
+         Click on any part of the line for the Evaluation or Observation you wish to open
+      </legend> 
+      
+  <div id="Evals">
+   <table width=95%>
+     <tr class="trhover">
+      <th> Staff Name </th>
+      <th>Oberserver's Name</th>
+      <th> Date of Eval </th>
+      <th>Notes</th>
+      <th> Status </th>
+     </tr>
+     
+     <? var startDate = getStartDate(); ?>
+     <? var parameter = ""; ?>
+       
+     
+        
+        <?//get staff evals
+         var evals = getEvals(user);
+         for (var steval = 0; steval < evals.length; steval++) { 
+          if (evals[steval][0] && evals[steval][5] > startDate) {
+           parameter = user + '&' + evals[steval][1];
+         ?>
+         <tr class="trhigh" onclick="openEval(<?=parameter?>)">
+         <td class="pad"><?=evals[steval][0]?></td>
+         <td class="pad"><?=evals[steval][3]?></td>
+         <td class="pad"><?=evals[steval][5].getMonth() + 1?>/<?=evals[steval][5].getDate()?>/<?=evals[steval][5].getFullYear()?></td>
+         <td class="pad"><?=evals[steval][6]?></td>
+         <td class="pad"><?=evals[steval][4]?></td>
+         
+         </tr>
+        <? }}
+       ?>
+       
+      <? // then get array or that staff's evals ?>
+      <? // show eval detail if date is larger then what is in misc ?>
+       
+    <?//for loop?>
+    <tr>    
+    
+    </tr>
+    
+    
+   </table>
+   
+  </div>
+   
+ </fieldset>
+ <div id="work" hidden='true'>Loading your Evaluation / Observation now</div>
+   <?!= HtmlService.createHtmlOutputFromFile('CSS').getContent(); ?> 
+  </form>
+
+  </body>
+</html>
+
